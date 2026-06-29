@@ -25,6 +25,11 @@ Frontend, desde frontend:
 
 Abre http://localhost:4200. La documentación interactiva de la API está en http://localhost:8000/docs.
 
+El backend acepta por defecto el frontend servido desde `localhost:4200` o
+`127.0.0.1:4200`. Para otros orígenes, define `FRONTEND_ORIGINS` como una lista
+separada por comas. `FRONTEND_ORIGIN` se conserva como alternativa compatible
+para configurar un solo origen.
+
 ## Primer ingreso
 
 1. Angular envía usuario y contraseña a POST /api/auth/login.

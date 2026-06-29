@@ -17,6 +17,15 @@ def _as_bool(value: str | None, default: bool = False) -> bool:
     return value.lower() in {"1", "true", "yes", "on"}
 
 
+def _as_origins(value: str | None) -> list[str]:
+    if not value:
+        return [
+            "http://localhost:4200",
+            "http://127.0.0.1:4200",
+        ]
+    return [origin.strip() for origin in value.split(",") if origin.strip()]
+
+
 @dataclass(frozen=True)
 class Settings:
     demo_mode: bool = _as_bool(os.getenv("DEMO_MODE"), True)
@@ -29,7 +38,9 @@ class Settings:
     database_path: Path = Path(
         os.getenv("DATABASE_PATH", str(BACKEND_DIR / "data" / "mfa_demo.db"))
     ).resolve()
-    frontend_origin: str = os.getenv("FRONTEND_ORIGIN", "http://localhost:4200")
+    frontend_origins: tuple[str, ...] = tuple(
+        _as_origins(os.getenv("FRONTEND_ORIGINS") or os.getenv("FRONTEND_ORIGIN"))
+    )
     issuer: str = "MFA Lab"
     challenge_minutes: int = 5
     access_minutes: int = 30

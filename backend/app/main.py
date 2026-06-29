@@ -102,7 +102,7 @@ app = FastAPI(
 )
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.frontend_origin],
+    allow_origins=settings.frontend_origins,
     allow_credentials=False,
     allow_methods=["GET", "POST"],
     allow_headers=["Authorization", "Content-Type", "X-Demo-Key"],
@@ -238,4 +238,3 @@ def hmac_compare(received: str | None, expected: str) -> bool:
     import hmac
 
     return received is not None and hmac.compare_digest(received, expected)
-

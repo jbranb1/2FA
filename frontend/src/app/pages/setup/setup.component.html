@@ -27,12 +27,14 @@
           <p>Introduce esta clave manual en el autenticador:</p>
           <code class="secret">{{ data.manual_key }}</code>
         </details>
-        <form class="code-form" (ngSubmit)="confirm()">
+        <form class="code-form" (submit)="confirm($event)" novalidate>
           <label for="setup-code">Código mostrado en la aplicación</label>
-          <input id="setup-code" class="otp-input" type="text" inputmode="numeric" maxlength="6"
-            autocomplete="one-time-code" [formControl]="code" placeholder="000000" />
+          <input id="setup-code" class="otp-input" type="text" inputmode="numeric"
+            autocomplete="one-time-code" [formControl]="code" (input)="onCodeInput($event)"
+            placeholder="000000" aria-describedby="setup-code-help" />
+          <p id="setup-code-help" class="field-hint">Puedes escribir o pegar el código con o sin espacios.</p>
           @if (error()) { <p class="alert error" role="alert">{{ error() }}</p> }
-          <button class="primary" type="submit" [disabled]="code.invalid || submitting()">
+          <button class="primary" type="submit" [disabled]="submitting()">
             {{ submitting() ? 'Comprobando…' : 'Confirmar y entrar' }}
           </button>
         </form>

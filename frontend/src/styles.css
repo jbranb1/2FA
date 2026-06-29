@@ -52,6 +52,7 @@ details { margin: 24px 0; padding: 16px; border: 1px solid #294238; border-radiu
 summary { cursor: pointer; color: #cbd8d3; font-weight: 700; }
 .secret { display: block; margin-top: 12px; padding: 12px; overflow-wrap: anywhere; color: #72e6ad; background: #07120e; border-radius: 8px; letter-spacing: .08em; }
 .otp-input { font-size: 1.65rem; letter-spacing: .36em; text-align: center; }
+.field-hint { margin: -8px 0 4px; color: #82948d; font-size: .8rem; }
 .concept-strip { display: grid; grid-template-columns: repeat(3,1fr); margin-top: 48px; border: 1px solid #243b32; border-radius: 16px; overflow: hidden; }
 .concept-strip div { padding: 18px; border-right: 1px solid #243b32; }
 .concept-strip div:last-child { border: 0; }

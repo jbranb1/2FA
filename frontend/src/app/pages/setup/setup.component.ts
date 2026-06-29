@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { SetupResponse } from '../../core/api.models';
 import { AuthService } from '../../core/auth.service';
+import { normalizeTotpCode, TOTP_CODE_ERROR } from '../../core/totp-code';
 
 @Component({
   selector: 'app-setup',
@@ -33,8 +34,14 @@ export class SetupComponent implements OnInit {
     });
   }
 
-  confirm(): void {
-    if (this.code.invalid || this.submitting()) return;
+  confirm(event: SubmitEvent): void {
+    event.preventDefault();
+    if (this.submitting()) return;
+    this.code.markAsTouched();
+    if (this.code.invalid) {
+      this.error.set(TOTP_CODE_ERROR);
+      return;
+    }
     this.error.set('');
     this.submitting.set(true);
     this.auth.confirmEnrollment(this.code.value)
@@ -43,5 +50,13 @@ export class SetupComponent implements OnInit {
         next: () => void this.router.navigateByUrl('/home'),
         error: (error) => this.error.set(this.auth.errorMessage(error)),
       });
+  }
+
+  onCodeInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const normalized = normalizeTotpCode(input.value);
+    input.value = normalized;
+    this.code.setValue(normalized);
+    this.error.set('');
   }
 }

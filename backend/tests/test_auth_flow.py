@@ -9,6 +9,21 @@ from app import security
 from app.main import app
 
 
+def test_cors_allows_both_local_frontend_hostnames():
+    with TestClient(app) as client:
+        for origin in ("http://localhost:4200", "http://127.0.0.1:4200"):
+            response = client.options(
+                "/api/health",
+                headers={
+                    "Origin": origin,
+                    "Access-Control-Request-Method": "GET",
+                },
+            )
+
+            assert response.status_code == 200
+            assert response.headers["access-control-allow-origin"] == origin
+
+
 def test_complete_enrollment_login_replay_and_reset(monkeypatch):
     base_time = 2_000_000_000
     monkeypatch.setattr(security.time, "time", lambda: base_time)
@@ -86,4 +101,3 @@ def test_complete_enrollment_login_replay_and_reset(monkeypatch):
             "/api/auth/login", json={"username": "demo", "password": "Demo2FA!2026"}
         )
         assert enrollment_again.json()["next_step"] == "SETUP_REQUIRED"
-

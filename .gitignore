@@ -15,7 +15,7 @@ frontend/.vscode/
 
 # General
 .env
+*.log
 .DS_Store
 Thumbs.db
 graphify-out/
-

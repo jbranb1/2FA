@@ -3,12 +3,14 @@
   <p class="eyebrow">Paso 2 · Factor de posesión</p>
   <h1>Código del autenticador</h1>
   <p class="lead">Abre Google Authenticator e introduce el código actual de seis dígitos.</p>
-  <form class="code-form" (ngSubmit)="verify()">
+  <form class="code-form" (submit)="verify($event)" novalidate>
     <label for="verify-code">Código TOTP</label>
-    <input id="verify-code" class="otp-input" type="text" inputmode="numeric" maxlength="6"
-      autocomplete="one-time-code" [formControl]="code" placeholder="000000" autofocus />
+    <input id="verify-code" class="otp-input" type="text" inputmode="numeric"
+      autocomplete="one-time-code" [formControl]="code" (input)="onCodeInput($event)"
+      placeholder="000000" aria-describedby="verify-code-help" autofocus />
+    <p id="verify-code-help" class="field-hint">Puedes escribir o pegar el código con o sin espacios.</p>
     @if (error()) { <p class="alert error" role="alert">{{ error() }}</p> }
-    <button class="primary" type="submit" [disabled]="code.invalid || submitting()">
+    <button class="primary" type="submit" [disabled]="submitting()">
       {{ submitting() ? 'Verificando…' : 'Validar segundo factor' }}
     </button>
   </form>

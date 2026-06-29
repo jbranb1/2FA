@@ -14,7 +14,7 @@ MFA Lab es código educativo para ejecución local. No debe exponerse a Internet
 - Rechazo del mismo contador TOTP después de un uso exitoso.
 - Tolerancia de reloj limitada a un periodo.
 - Limitador local de intentos.
-- CORS restringido a http://localhost:4200.
+- CORS restringido por defecto a http://localhost:4200 y http://127.0.0.1:4200.
 - Reinicio de TOTP condicionado por DEMO_MODE y una clave explícita.
 
 ## Simplificaciones deliberadas
