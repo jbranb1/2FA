@@ -1,0 +1,20 @@
+# Dependencies and virtual environments
+node_modules/
+.venv/
+
+# Framework and build outputs
+.next/
+dist/
+build/
+.angular/
+
+# Generated caches
+__pycache__/
+.pytest_cache/
+
+# Runtime data and logs
+backend/data/
+*.log
+
+# Graphify output
+graphify-out/
