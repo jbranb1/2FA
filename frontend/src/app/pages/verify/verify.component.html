@@ -1,0 +1,19 @@
+<section class="center-card">
+  <div class="authenticator-icon" aria-hidden="true"><span>6</span></div>
+  <p class="eyebrow">Paso 2 · Factor de posesión</p>
+  <h1>Código del autenticador</h1>
+  <p class="lead">Abre Google Authenticator e introduce el código actual de seis dígitos.</p>
+  <form class="code-form" (submit)="verify($event)" novalidate>
+    <label for="verify-code">Código TOTP</label>
+    <input id="verify-code" class="otp-input" type="text" inputmode="numeric"
+      autocomplete="one-time-code" [formControl]="code" (input)="onCodeInput($event)"
+      placeholder="000000" aria-describedby="verify-code-help" autofocus />
+    <p id="verify-code-help" class="field-hint">Puedes escribir o pegar el código con o sin espacios.</p>
+    @if (error()) { <p class="alert error" role="alert">{{ error() }}</p> }
+    <button class="primary" type="submit" [disabled]="submitting()">
+      {{ submitting() ? 'Verificando…' : 'Validar segundo factor' }}
+    </button>
+  </form>
+  <p class="microcopy">Cada código dura 30 segundos y solo puede usarse una vez.</p>
+  <a class="back-link" routerLink="/login">← Volver a las credenciales</a>
+</section>

@@ -1,0 +1,35 @@
+<section class="dashboard">
+  <div class="success-hero">
+    <div class="success-check">✓</div>
+    <div>
+      <p class="eyebrow">Sesión protegida</p>
+      <h1>Ambos factores fueron validados</h1>
+      <p class="lead">El backend emitió el token de acceso únicamente después del TOTP.</p>
+    </div>
+  </div>
+  @if (profile(); as user) {
+    <div class="dashboard-grid">
+      <article class="data-card"><span>Usuario</span><strong>{{ user.username }}</strong></article>
+      <article class="data-card"><span>Estado TOTP</span><strong class="green">Activo</strong></article>
+      <article class="data-card">
+        <span>Configurado</span><strong>{{ user.totp_configured_at | date: 'medium' }}</strong>
+      </article>
+    </div>
+  }
+  <div class="learning-panel">
+    <h2>Lo que acaba de ocurrir</h2>
+    <div class="timeline">
+      <div><b>1</b><span>La contraseña demostró conocimiento.</span></div>
+      <div><b>2</b><span>El código demostró posesión del secreto.</span></div>
+      <div><b>3</b><span>El servidor rechazará reutilizar ese contador TOTP.</span></div>
+      <div><b>4</b><span>Solo entonces se creó una sesión de 30 minutos.</span></div>
+    </div>
+  </div>
+  @if (error()) { <p class="alert error">{{ error() }}</p> }
+  <div class="actions">
+    <button class="secondary" type="button" (click)="logout()">Cerrar sesión</button>
+    <button class="danger" type="button" (click)="reset()" [disabled]="resetting()">
+      {{ resetting() ? 'Reiniciando…' : 'Borrar TOTP y repetir demostración' }}
+    </button>
+  </div>
+</section>

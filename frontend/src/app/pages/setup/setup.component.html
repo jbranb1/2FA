@@ -1,0 +1,52 @@
+<section class="wide-card">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Primer ingreso · Enrolamiento</p>
+      <h1>Registra Google Authenticator</h1>
+      <p class="lead">El QR transfiere un secreto compartido una sola vez.</p>
+    </div>
+    <span class="step-pill">Paso 2 de 2</span>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-block">Generando secreto y código QR…</div>
+  } @else if (setup(); as data) {
+    <div class="setup-grid">
+      <div class="qr-panel">
+        <img [src]="data.qr_data_url" alt="Código QR para configurar Google Authenticator" />
+        <p>Google Authenticator → <strong>+</strong> → Escanear código QR</p>
+      </div>
+      <div>
+        <ol class="instructions">
+          <li>Abre Google Authenticator en tu teléfono.</li>
+          <li>Escanea el QR. Se agregará <strong>{{ data.issuer }}:{{ data.account }}</strong>.</li>
+          <li>Escribe abajo el código actual de {{ data.digits }} dígitos.</li>
+        </ol>
+        <details>
+          <summary>No puedo escanear el QR</summary>
+          <p>Introduce esta clave manual en el autenticador:</p>
+          <code class="secret">{{ data.manual_key }}</code>
+        </details>
+        <form class="code-form" (submit)="confirm($event)" novalidate>
+          <label for="setup-code">Código mostrado en la aplicación</label>
+          <input id="setup-code" class="otp-input" type="text" inputmode="numeric"
+            autocomplete="one-time-code" [formControl]="code" (input)="onCodeInput($event)"
+            placeholder="000000" aria-describedby="setup-code-help" />
+          <p id="setup-code-help" class="field-hint">Puedes escribir o pegar el código con o sin espacios.</p>
+          @if (error()) { <p class="alert error" role="alert">{{ error() }}</p> }
+          <button class="primary" type="submit" [disabled]="submitting()">
+            {{ submitting() ? 'Comprobando…' : 'Confirmar y entrar' }}
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="concept-strip">
+      <div><b>Secreto</b><span>Compartido por el QR</span></div>
+      <div><b>Tiempo</b><span>Ventanas de {{ data.period_seconds }} segundos</span></div>
+      <div><b>Resultado</b><span>Código corto de {{ data.digits }} dígitos</span></div>
+    </div>
+  } @else {
+    <p class="alert error">{{ error() }}</p>
+    <a routerLink="/login">Volver al inicio</a>
+  }
+</section>
